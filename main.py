@@ -1,22 +1,24 @@
 import pygame
+import random
 
 # Připravíme PyGame
 pygame.init()
-pygame.display.set_caption(".....")
-size = (300, 200)
-screen = pygame.display.set_mode(size)
+pygame.display.set_caption("   Turtle Game")
+screen = pygame.display.set_mode((300, 200))
 clock = pygame.time.Clock()
 
 # Připravíme si obrázek
 background = (200, 200, 200)
 turtle = pygame.image.load("turtle.png")
 turtle = pygame.transform.scale(turtle, (40, 40))
+pineapple = pygame.image.load("pineapple.png")
+pineapple = pygame.transform.scale(pineapple, (40, 40))
 
 WIDTH = 4
 HEIGHT = 3
 
-zx = 2
-zy = 1
+turtle_x = 2
+turtle_y = 1
 
 
 def game_to_screen(x, y):
@@ -24,12 +26,12 @@ def game_to_screen(x, y):
 
 
 def animate(nx, ny):
-    global zx, zy
+    global turtle_x, turtle_y
 
     duration = 2000
     t = 0
     # Obrazovkove souradnice
-    sx, sy = game_to_screen(zx, zy)
+    sx, sy = game_to_screen(turtle_x, turtle_y)
     ex, ey = game_to_screen(nx, ny)
     while t < duration:
         new = t / duration  # 0...1
@@ -42,8 +44,8 @@ def animate(nx, ny):
         pygame.display.update()
         t = t + clock.tick()
 
-    zx = nx
-    zy = ny
+    turtle_x = nx
+    turtle_y = ny
 
 def draw_grid():
     for x in range(WIDTH):
@@ -52,29 +54,37 @@ def draw_grid():
             rect = (game_to_screen(x, y), (40, 40))
             pygame.draw.rect(screen, color, rect)
 
+pa_x = 0
+pa_y = 0
+
 rotated_turtle = pygame.transform.rotate(turtle, 0)
 while True:
     # Vykreslíme
     screen.fill(background)
     draw_grid()
-    screen.blit(rotated_turtle, game_to_screen(zx, zy))
+    screen.blit(rotated_turtle, game_to_screen(turtle_x, turtle_y))
+    screen.blit(pineapple, game_to_screen(pa_x, pa_y)) ##fffffxxxxx
     pygame.display.update()
 
     event = pygame.event.wait()
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_RIGHT:
             rotated_turtle = pygame.transform.rotate(turtle, 0)
-            if zx < WIDTH - 1:
-                animate(zx + 1, zy)
+            if turtle_x < WIDTH - 1:
+                animate(turtle_x + 1, turtle_y)
         elif event.key == pygame.K_UP:
             rotated_turtle = pygame.transform.rotate(turtle, 90)
-            if zy > 0:
-                animate(zx, zy - 1)
+            if turtle_y > 0:
+                animate(turtle_x, turtle_y - 1)
         elif event.key == pygame.K_LEFT:
             rotated_turtle = pygame.transform.rotate(turtle, 180)
-            if zx > 0:
-                animate(zx - 1, zy)
+            if turtle_x > 0:
+                animate(turtle_x - 1, turtle_y)
         elif event.key == pygame.K_DOWN:
             rotated_turtle = pygame.transform.rotate(turtle, 270)
-            if zy < HEIGHT - 1:
-                animate(zx, zy + 1)
+            if turtle_y < HEIGHT - 1:
+                animate(turtle_x, turtle_y + 1)
+
+    if (turtle_x, turtle_y) == (pa_x, pa_y):
+        pa_x = random.randrange(0, WIDTH)
+        pa_y = random.randrange(0, HEIGHT)
