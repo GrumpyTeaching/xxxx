@@ -51,10 +51,13 @@ def draw_scene():
             color = (255, 255, 255)
             rect = (game_to_screen(x, y), (40, 40))
             pygame.draw.rect(screen, color, rect)
-    screen.blit(pineapple, game_to_screen(pa_x, pa_y))
+    for pa in pineapples:
+        pa_x, pa_y = pa
+        screen.blit(pineapple, game_to_screen(pa_x, pa_y))
 
 pa_x = 0
 pa_y = 0
+pineapples = [(0, 0), (0, 1), (0, 2)]
 
 rotated_turtle = pygame.transform.rotate(turtle, 0)
 while True:
