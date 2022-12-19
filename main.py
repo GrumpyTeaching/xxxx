@@ -44,6 +44,12 @@ def move_turtle(nx, ny):
     turtle_x = nx
     turtle_y = ny
 
+    check_pineapples()
+
+pa_x = 0
+pa_y = 0
+pineapples = [(0, 0), (5, 1), (0, 2)]
+
 def draw_scene():
     screen.fill(background)
     for x in range(WIDTH):
@@ -55,9 +61,13 @@ def draw_scene():
         pa_x, pa_y = pa
         screen.blit(pineapple, game_to_screen(pa_x, pa_y))
 
-pa_x = 0
-pa_y = 0
-pineapples = [(0, 0), (0, 1), (0, 2)]
+def check_pineapples():
+    global pineapples
+    new = []
+    for pa in pineapples:
+        if pa != (turtle_x, turtle_y):
+            new.append(pa)
+    pineapples = new
 
 rotated_turtle = pygame.transform.rotate(turtle, 0)
 while True:
