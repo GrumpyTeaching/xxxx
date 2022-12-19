@@ -66,9 +66,12 @@ def draw_scene():
     text = font.render(f"Score: {score}", True, (0, 0, 0), (0, 255, 0))
     screen.blit(text, (20, 300))
 
+countdown = 5
+
 def check_pineapples():
     global pineapples
     global score
+    global countdown
     new = []
     for pa in pineapples:
         if pa == (turtle_x, turtle_y):
@@ -76,9 +79,17 @@ def check_pineapples():
         else:
             new.append(pa)
     pineapples = new
+    countdown = countdown - 1
+    if countdown == 0:
+        rx = random.randrange(0, WIDTH)
+        ry = random.randrange(0, HEIGHT)
+        pineapples.append((rx, ry))
+        countdown = 5
 
 rotated_turtle = pygame.transform.rotate(turtle, 0)
 while True:
+
+    
     # Vykreslíme
     draw_scene()
     screen.blit(rotated_turtle, game_to_screen(turtle_x, turtle_y))
