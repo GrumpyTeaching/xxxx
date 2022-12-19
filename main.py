@@ -26,7 +26,7 @@ def game_to_screen(x, y):
 def move_turtle(nx, ny):
     global turtle_x, turtle_y
 
-    duration = 2000
+    duration = 1000
     t = 0
     # Obrazovkove souradnice
     sx, sy = game_to_screen(turtle_x, turtle_y)
@@ -49,6 +49,7 @@ def move_turtle(nx, ny):
 pa_x = 0
 pa_y = 0
 pineapples = [(0, 0), (5, 1), (0, 2)]
+score = 0
 
 def draw_scene():
     screen.fill(background)
@@ -61,11 +62,18 @@ def draw_scene():
         pa_x, pa_y = pa
         screen.blit(pineapple, game_to_screen(pa_x, pa_y))
 
+    font = pygame.font.Font(None, 42) # presunout na zacatek
+    text = font.render(f"Score: {score}", True, (0, 0, 0), (0, 255, 0))
+    screen.blit(text, (20, 300))
+
 def check_pineapples():
     global pineapples
+    global score
     new = []
     for pa in pineapples:
-        if pa != (turtle_x, turtle_y):
+        if pa == (turtle_x, turtle_y):
+            score = score + 10
+        else:
             new.append(pa)
     pineapples = new
 
