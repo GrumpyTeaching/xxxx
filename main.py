@@ -15,7 +15,7 @@ pineapple = pygame.image.load("pineapple.png")
 pineapple = pygame.transform.scale(pineapple, (40, 40))
 
 WIDTH = 8
-HEIGHT = 6
+HEIGHT = 7
 
 turtle_x = 2
 turtle_y = 1
